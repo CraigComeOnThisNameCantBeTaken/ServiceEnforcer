@@ -7,7 +7,7 @@ It is a common approach to specify repositories in the domain layer using interf
 
 There is however a pitfall - since the domain layer isnt providing the repository implementations, how can we ensure that they *actually are* provided by the infrastructure layer? This is a problem because if we do replace our database technology we will probably implement a new project and we might miss something. Worse this doesnt only apply to repositories, actually most well designed software uses dependency inversion for a plethora of reasons.
 
-even worse you might write a library that has infrastructure concerns and expect another library to provide them using dependency inversion (eg Authentication, Authentication.IdentityServer). What if the service has to be transient but the infrastructure layer provides it as transient? Things go bang.
+Even worse you might write a library that has infrastructure concerns and expect another library to provide them using dependency inversion (eg Authentication, Authentication.IdentityServer). What if the service has to be transient but the infrastructure layer provides it as a singleton? Things go bang.
 
 *But ServiceProviderOptions.ValidateOnBuild should solve this?*
 Nope. Actually that just ensures the services that have been registered can be created when calling BuildServiceProvider.
