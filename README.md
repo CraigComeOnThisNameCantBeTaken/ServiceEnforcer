@@ -9,13 +9,16 @@ There is however a pitfall - since the domain layer isnt providing the repositor
 
 Even worse you might write a library that has infrastructure concerns and expect another library to provide them using dependency inversion (eg Authentication, Authentication.IdentityServer). What if the service has to be transient but the infrastructure layer provides it as a singleton? Things go bang.
 
-*But ServiceProviderOptions.ValidateOnBuild should solve this?*
+**But ServiceProviderOptions.ValidateOnBuild should solve this?**
+
 Nope. Actually that just ensures the services that have been registered can be created when calling BuildServiceProvider.
 
-*What about ValidateScopes?*
+**What about ValidateScopes?**
+
 This is probably more obvious but to be clear this just makes sure you arent trying to resolve scoped services where you shouldnt be.
 
-*This library to the rescue*
+**This library to the rescue**
+
 Now we can specify in the layer with the interface that it must be registered, and we can specify the lifetime. If it isnt registered correctly the application will throw at startup with a clear exception.
 
 ## Installation
