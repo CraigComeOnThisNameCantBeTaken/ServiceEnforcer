@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 
-namespace PortsAndAdapters.Installation
+namespace ServicesEnforcer.Installation
 {
-    public class PortsAndAdaptersBuilder
+    public class ServiceEnforcerBuilder
     {
         public IList<PortInfo> Ports = new List<PortInfo>();
 

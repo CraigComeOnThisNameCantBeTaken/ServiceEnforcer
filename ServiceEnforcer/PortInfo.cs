@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace PortsAndAdapters
+namespace ServicesEnforcer
 {
     public class PortInfo
     {

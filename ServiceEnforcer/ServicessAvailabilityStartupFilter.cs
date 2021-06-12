@@ -1,19 +1,19 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using PortsAndAdapters.Exceptions;
+using ServicesEnforcer.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PortsAndAdapters
+namespace ServicesEnforcer
 {
-    internal class PortsAvailableStartupFilter : IStartupFilter
+    internal class ServicesAvailableStartupFilter : IStartupFilter
     {
         private readonly IServiceCollection _services;
         private readonly IEnumerable<PortInfo> _portInfos;
 
-        public PortsAvailableStartupFilter(IServiceCollection services, IEnumerable<PortInfo> ports)
+        public ServicesAvailableStartupFilter(IServiceCollection services, IEnumerable<PortInfo> ports)
         {
             _services = services;
             _portInfos = ports;
@@ -39,7 +39,7 @@ namespace PortsAndAdapters
                     sd.Lifetime == portInfo.LifeTime);
 
                 if (service == null)
-                    throw new PortNotAdaptedException($"{port.Name} has not been adapted as a {lifeTime} service");
+                    throw new ServiceNotEnforcedException($"{port.Name} has not been adapted as a {lifeTime} service");
             }
         }
     }
