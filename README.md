@@ -25,13 +25,16 @@ Now we can specify in the layer with the interface that it must be registered, a
 ### Project With The Interface
 
 ```
-            services.EnforceServices(builder =>
-            {
-                builder.AddPort<IMyInterfaceToCodeAgainst>(ServiceLifetime.Singleton);
-            });
+services.EnforceServices(builder =>
+{
+    builder.Enforce<IMyInterfaceToCodeAgainst>();
+    builder.EnforceTransient<IMyInterfaceToCodeAgainst>();
+    builder.EnforceScoped<IMyInterfaceToCodeAgainst>();
+    builder.EnforceSingleton<IMyInterfaceToCodeAgainst>();
+});
 ```
 
 ### Project With Implementation
 ```
-            services.AddSingleton<IMyInterfaceToCodeAgainst, MyConcrete>();
+services.AddSingleton<IMyInterfaceToCodeAgainst, MyConcrete>();
 ```
