@@ -25,7 +25,7 @@ namespace ServicesEnforcer.Installation
             Enforce<T>(ServiceLifetime.Transient);
         }
 
-        private void Enforce<T>(ServiceLifetime? lifeTime = null)
+        public void Enforce<T>(ServiceLifetime? lifeTime = null)
             where T : class
         {
             Ports.Add(new ServiceInfo
