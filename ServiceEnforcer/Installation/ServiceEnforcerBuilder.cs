@@ -5,7 +5,7 @@ namespace ServicesEnforcer.Installation
 {
     public class ServiceEnforcerBuilder
     {
-        internal IList<ServiceInfo> Ports = new List<ServiceInfo>();
+        internal IList<ServiceInfo> ServiceInfos = new List<ServiceInfo>();
 
         public void EnforceSingleton<T>()
             where T : class
@@ -28,7 +28,7 @@ namespace ServicesEnforcer.Installation
         public void Enforce<T>(ServiceLifetime? lifeTime = null)
             where T : class
         {
-            Ports.Add(new ServiceInfo
+            ServiceInfos.Add(new ServiceInfo
             {
                 Service = typeof(T),
                 LifeTime = lifeTime

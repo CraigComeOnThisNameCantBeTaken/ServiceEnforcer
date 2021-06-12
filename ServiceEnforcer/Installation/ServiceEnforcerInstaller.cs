@@ -14,7 +14,7 @@ namespace ServicesEnforcer.Installation
 
             services.AddTransient<IStartupFilter>(_ =>
             {
-                return new ServicesAvailableStartupFilter(services, builder.Ports);
+                return new ServicesAvailableStartupFilter(services, builder.ServiceInfos);
             });
         }
 
