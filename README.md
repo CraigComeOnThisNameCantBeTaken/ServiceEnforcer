@@ -1,4 +1,4 @@
-# Ports And Adapters
+# ServiceEnforcer
 This package allows you to ensure that services have been provided (with the correct scope) at startup. Even if the services have been provided in a different project.
 
 Take Onion Architecture for instance (see https://jeffreypalermo.com/2008/07/the-onion-architecture-part-1).
@@ -25,7 +25,7 @@ Now we can specify in the layer with the interface that it must be registered, a
 ### Project With The Interface
 
 ```
-            services.EnforcePortsAndAdapters(builder =>
+            services.EnforceServices(builder =>
             {
                 builder.AddPort<IMyInterfaceToCodeAgainst>(ServiceLifetime.Singleton);
             });
