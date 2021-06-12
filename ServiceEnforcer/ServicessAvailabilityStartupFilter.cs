@@ -11,36 +11,43 @@ namespace ServicesEnforcer
     internal class ServicesAvailableStartupFilter : IStartupFilter
     {
         private readonly IServiceCollection _services;
-        private readonly IEnumerable<ServiceInfo> _portInfos;
+        private readonly IEnumerable<ServiceInfo> _serviceInfos;
 
-        public ServicesAvailableStartupFilter(IServiceCollection services, IEnumerable<ServiceInfo> ports)
+        public ServicesAvailableStartupFilter(IServiceCollection services, IEnumerable<ServiceInfo> serviceInfos)
         {
             _services = services;
-            _portInfos = ports;
+            _serviceInfos = serviceInfos;
         }
 
         public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
         {
             return builder =>
             {
-                ValidatePorts(_services);
+                ValidateServices(_services);
                 next(builder);
             };
         }
 
-        private void ValidatePorts(IServiceCollection services)
+        private void ValidateServices(IServiceCollection services)
         {
-            foreach (var portInfo in _portInfos)
+            foreach (var serviceInfo in _serviceInfos)
             {
-                var expectedService = portInfo.Service;
-                var expectedLifeTime = portInfo.LifeTime;
+                var service = services.FirstOrDefault(regSer => ServiceIsValid(regSer, serviceInfo));
 
-                var service = services.FirstOrDefault(regSer => regSer.ServiceType == portInfo.Service &&
-                    (expectedLifeTime == null || regSer.Lifetime == expectedLifeTime));
-
+                var expectedService = serviceInfo.Service;
+                var expectedLifeTime = serviceInfo.LifeTime;
                 if (service == null)
                     throw new ServiceNotEnforcedException($"{expectedService.Name} has not been registered as a {expectedLifeTime} service");
             }
+        }
+
+        private bool ServiceIsValid(ServiceDescriptor service, ServiceInfo serviceInfo)
+{
+            var expectedService = serviceInfo.Service;
+            var expectedLifeTime = serviceInfo.LifeTime;
+
+            return service.ServiceType == expectedService &&
+                    (expectedLifeTime == null || service.Lifetime == expectedLifeTime);
         }
     }
 }
