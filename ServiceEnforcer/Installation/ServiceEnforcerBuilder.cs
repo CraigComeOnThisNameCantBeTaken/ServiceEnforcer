@@ -5,14 +5,32 @@ namespace ServicesEnforcer.Installation
 {
     public class ServiceEnforcerBuilder
     {
-        public IList<PortInfo> Ports = new List<PortInfo>();
+        internal IList<ServiceInfo> Ports = new List<ServiceInfo>();
 
-        public void AddPort<T>(ServiceLifetime lifeTime)
+        public void EnforceSingleton<T>()
             where T : class
         {
-            Ports.Add(new PortInfo
+            Enforce<T>(ServiceLifetime.Singleton);
+        }
+
+        public void EnforceScoped<T>()
+            where T : class
+        {
+            Enforce<T>(ServiceLifetime.Transient);
+        }
+
+        public void EnforceTransient<T>()
+            where T : class
+        {
+            Enforce<T>(ServiceLifetime.Transient);
+        }
+
+        private void Enforce<T>(ServiceLifetime? lifeTime = null)
+            where T : class
+        {
+            Ports.Add(new ServiceInfo
             {
-                Port = typeof(T),
+                Service = typeof(T),
                 LifeTime = lifeTime
             });
         }

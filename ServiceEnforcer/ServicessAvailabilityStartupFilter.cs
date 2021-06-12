@@ -11,9 +11,9 @@ namespace ServicesEnforcer
     internal class ServicesAvailableStartupFilter : IStartupFilter
     {
         private readonly IServiceCollection _services;
-        private readonly IEnumerable<PortInfo> _portInfos;
+        private readonly IEnumerable<ServiceInfo> _portInfos;
 
-        public ServicesAvailableStartupFilter(IServiceCollection services, IEnumerable<PortInfo> ports)
+        public ServicesAvailableStartupFilter(IServiceCollection services, IEnumerable<ServiceInfo> ports)
         {
             _services = services;
             _portInfos = ports;
@@ -32,14 +32,14 @@ namespace ServicesEnforcer
         {
             foreach (var portInfo in _portInfos)
             {
-                var port = portInfo.Port;
-                var lifeTime = portInfo.LifeTime;
+                var expectedService = portInfo.Service;
+                var expectedLifeTime = portInfo.LifeTime;
 
-                var service = services.FirstOrDefault(sd => sd.ServiceType == portInfo.Port &&
-                    sd.Lifetime == portInfo.LifeTime);
+                var service = services.FirstOrDefault(regSer => regSer.ServiceType == portInfo.Service &&
+                    (expectedLifeTime == null || regSer.Lifetime == expectedLifeTime));
 
                 if (service == null)
-                    throw new ServiceNotEnforcedException($"{port.Name} has not been adapted as a {lifeTime} service");
+                    throw new ServiceNotEnforcedException($"{expectedService.Name} has not been registered as a {expectedLifeTime} service");
             }
         }
     }
