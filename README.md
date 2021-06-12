@@ -5,6 +5,17 @@ Take Onion Architecture for instance (see https://jeffreypalermo.com/2008/07/the
 
 It is a common approach to usse dependency inversion to implement infrastructure concerns outside of a very general package. This is good design but how can we ensure that they *actually are* provided by the infrastructure layer?
 
+## Does this already exist?
+**ServiceProviderOptions.ValidateOnBuild should solve this?**
+
+Nope. Actually that just ensures the services that have been registered can be created when calling BuildServiceProvider.
+
+**What about ValidateScopes?**
+
+This is probably more obvious but to be clear this just makes sure you arent trying to resolve scoped services where you shouldnt be.
+
+## There are other ways around this...
+
 Lets imagine a scenario where you have written 2 libraries - Authentication which has IUserManager and Authentication.Auth0 which implements it. A number of years later your business decides to switch to IdentityServer and a different developer (Jim) begins implementing Authentication.IdentityServer. How do we ensure they implement IUserManager there too?
 
 **Obviously integration tests?**
@@ -18,14 +29,6 @@ Yes he should. That isnt debatable. I would however like to protect the business
 **There should be someone manually testing...**
 
 Yes there should. But how do we know there will be? We dont even know what project Jim is on. We might not even be at the company anymore.
-
-**Ok but ServiceProviderOptions.ValidateOnBuild should solve this?**
-
-Nope. Actually that just ensures the services that have been registered can be created when calling BuildServiceProvider.
-
-**What about ValidateScopes?**
-
-This is probably more obvious but to be clear this just makes sure you arent trying to resolve scoped services where you shouldnt be.
 
 **Why should I care? They should do their job right**
 
